@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Meshes/haystack-gltf/HayStack.gltf" type="PackedScene" id=1]
+[ext_resource path="res://Meshes/haystack-gltf/Obstacle.gd" type="Script" id=2]
+
+[sub_resource type="CylinderShape" id=12]
+radius = 4.0
+height = 16.0
+
+[sub_resource type="CylinderShape" id=13]
+radius = 12.0
+height = 16.07
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 0.1
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.85
+angular_velocity = 4.2039e-45
+damping = 0.75
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_unshaded = true
+params_blend_mode = 1
+albedo_color = Color( 1, 0.85098, 0.0509804, 0.733333 )
+
+[sub_resource type="SphereMesh" id=9]
+material = SubResource( 8 )
+radius = 0.2
+height = 0.4
+radial_segments = 4
+rings = 4
+
+[sub_resource type="SpatialMaterial" id=10]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 1, 0.282353, 0, 1 )
+
+[sub_resource type="SphereMesh" id=11]
+material = SubResource( 10 )
+radius = 0.16
+height = 0.32
+radial_segments = 4
+rings = 4
+
+[node name="Scene Root" instance=ExtResource( 1 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="." index="1"]
+shape = SubResource( 12 )
+
+[node name="Area" type="Area" parent="." index="2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area" index="0"]
+shape = SubResource( 13 )
+
+[node name="Particles" type="Particles" parent="." index="3"]
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 3, 0 )
+emitting = false
+amount = 256
+lifetime = 1.45
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 7 )
+draw_passes = 2
+draw_pass_1 = SubResource( 9 )
+draw_pass_2 = SubResource( 11 )
